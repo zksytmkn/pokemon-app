@@ -6,6 +6,7 @@ export async function getPokemons() {
   const res = await fetch(`${process.env.POKEAPI_URL}`);
   const resObj = await res.json();
   const resObjResult = resObj.results;
+  const totalNum = resObj.count;
   const pokemons = [];
 
   for (const pokeDataSrc of resObjResult) {
@@ -31,5 +32,5 @@ export async function getPokemons() {
       });
     }
   }
-  return pokemons;
+  return { pokemons, totalNum };
 }
