@@ -3,14 +3,13 @@
 import { SpeciesItem } from "../types/pokemon";
 
 export async function getPokemons() {
-  const res = await fetch(`${process.env.POKEAPI_URL}`);
+  const res = await fetch(`https://pokeapi.co/api/v2/pokemon?offset=0&limit=493`);
   const resObj = await res.json();
   const resObjResult = resObj.results;
-  const totalNum = resObj.count;
   const pokemons = [];
 
   for (const pokeDataSrc of resObjResult) {
-    const pokeDataRes = await fetch(`${process.env.POKEAPI_URL}/${pokeDataSrc.name}/`);
+    const pokeDataRes = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokeDataSrc.name}/`);
     const pokeDataResObj = await pokeDataRes.json();
     if (pokeDataResObj.species) {
       const speciesRes = await fetch(pokeDataResObj.species.url);
@@ -32,5 +31,5 @@ export async function getPokemons() {
       });
     }
   }
-  return { pokemons, totalNum };
+  return { pokemons };
 }
